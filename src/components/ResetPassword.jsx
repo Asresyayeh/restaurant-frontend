@@ -1,11 +1,10 @@
-// src/pages/ResetPassword.jsx
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function ResetPassword() {
-  const { token } = useParams(); // get the token from URL
+  const { token } = useParams(); 
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,7 +43,6 @@ function ResetPassword() {
       setMessage(data.message || "Password reset successful!");
       setError("");
 
-      // Redirect to login after 2 seconds
       setTimeout(() => {
         navigate("/login");
       }, 2000);
