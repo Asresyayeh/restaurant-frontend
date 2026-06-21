@@ -5,9 +5,14 @@ const API_URL = import.meta.env.VITE_API_URL;
 const ChapaPayment = ({ order, customerInfo, onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isTestMode, setIsTestMode] = useState(true); 
 
-  const totalAmount = order.totalPrice;
+  const totalAmount = Number(order?.totalPrice || 0);
+  const orderItems = Array.isArray(order?.items) ? order.items : [];
+  const customerEmail = (customerInfo?.email || "").trim();
+  const customerName = (customerInfo?.name || "").trim();
+  const customerPhone = (customerInfo?.phone || "").trim();
+  const customerAddress = (customerInfo?.address || "").trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const initializeChapaPayment = async () => {
     setLoading(true);
@@ -17,47 +22,65 @@ const ChapaPayment = ({ order, customerInfo, onSuccess, onCancel }) => {
       const token = localStorage.getItem("token");
 
       // Generate unique transaction reference
-      const tx_ref = `test-${order.userId}-${Date.now()}`;
+      const tx_ref = `test-${order?.userId || "guest"}-${Date.now()}`;
 
+      if (!customerEmail || !emailRegex.test(customerEmail)) {
+        throw new Error(
+          "Please provide a valid email address before continuing.",
+        );
+      }
+
+      const firstName = customerName.split(" ")[0] || "Test";
+      const lastName = customerName.split(" ").slice(1).join(" ") || "User";
+
+      const backendBaseUrl = API_URL.replace(/\/api$/, "");
       const requestData = {
         amount: totalAmount,
         currency: "ETB",
-        email: `${customerInfo.phone}@test.com`,
-        first_name: customerInfo.name.split(" ")[0] || "Test",
-        last_name: customerInfo.name.split(" ")[1] || "User",
-        phone_number: customerInfo.phone,
-        tx_ref: tx_ref,
-        callback_url: `${window.location.origin}/api/payment/chapa/webhook`,
+        email: customerEmail,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: customerPhone,
+        tx_ref,
+        callback_url: `${backendBaseUrl}/api/payment/chapa/webhook`,
         return_url: `${window.location.origin}/order-confirmation`,
         customization: {
           title: "Student Project - Test Payment",
-          description: `Test payment for order from ${customerInfo.name}`,
+          description: `Test payment for order from ${customerName}`,
         },
         order_data: {
-          orderId: order._id,
-          userId: order.userId,
-          restaurantId: order.restaurantId,
-          items: order.items,
-          totalPrice: order.totalPrice,
-          isTest: true, 
+          orderId: order?._id || order?.orderId || tx_ref,
+          userId: order?.userId || "",
+          restaurantId: order?.restaurantId || "",
+          items: orderItems,
+          totalPrice: totalAmount,
+          deliveryAddress: customerAddress,
+          isTest: true,
         },
       };
 
-      console.log("🧪 [TEST] Initializing Chapa test payment:", requestData);
+      const requestPayload = {
+        paymentData: requestData,
+        orderData: requestData.order_data,
+      };
+
+      console.log("🧪 [TEST] Initializing Chapa test payment:", requestPayload);
 
       const response = await fetch(`${API_URL}/payment/initialize`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: token ? `Bearer ${token}` : undefined,
         },
-        body: JSON.stringify(requestData),
+        body: JSON.stringify(requestPayload),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to initialize test payment");
+        throw new Error(
+          data?.message || data?.error || "Failed to initialize test payment",
+        );
       }
 
       if (data.success && data.data.checkout_url) {
@@ -69,8 +92,9 @@ const ChapaPayment = ({ order, customerInfo, onSuccess, onCancel }) => {
     } catch (err) {
       console.error("❌ Chapa test payment error:", err);
       setError(
-        err.message || "Test payment initialization failed. Please try again."
+        err.message || "Test payment initialization failed. Please try again.",
       );
+    } finally {
       setLoading(false);
     }
   };
@@ -83,7 +107,6 @@ const ChapaPayment = ({ order, customerInfo, onSuccess, onCancel }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-       
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-t-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -182,16 +205,18 @@ const ChapaPayment = ({ order, customerInfo, onSuccess, onCancel }) => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Customer:</span>
-                    <span className="font-medium">{customerInfo.name}</span>
+                    <span className="font-medium">
+                      {customerName || "Customer"}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Phone:</span>
-                    <span className="font-medium">{customerInfo.phone}</span>
+                    <span className="font-medium">{customerPhone || "-"}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Items:</span>
                     <span className="font-medium">
-                      {order.items?.length} items
+                      {orderItems.length} items
                     </span>
                   </div>
                 </div>

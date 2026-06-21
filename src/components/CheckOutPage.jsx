@@ -13,9 +13,10 @@ const CheckoutPage = () => {
 
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
-    paymentMethod: "cash", 
+    paymentMethod: "chapa",
   });
 
   const getUserIdFromToken = (token) => {
@@ -63,12 +64,16 @@ const CheckoutPage = () => {
   const totalPrice = cartItems.reduce(
     (total, item) =>
       total + (item.menuItem?.price || item.price || 0) * item.quantity,
-    0
+    0,
   );
 
   const validateForm = () => {
     if (!customerInfo.name.trim()) {
       alert("Please enter your name");
+      return false;
+    }
+    if (!customerInfo.email.trim() || !customerInfo.email.includes("@")) {
+      alert("Please enter a valid email address");
       return false;
     }
     if (!customerInfo.phone.trim()) {
@@ -151,13 +156,16 @@ const CheckoutPage = () => {
       quantity: item.quantity,
     }));
 
+    // FIXED: Form values are mapped explicitly to block back-end hardcoding fallbacks
     const orderData = {
       userId: userId,
       restaurantId: restaurantId,
       items,
       totalPrice,
       deliveryAddress: customerInfo.address,
-
+      email: customerInfo.email.trim(),
+      phone: customerInfo.phone.trim(),
+      name: customerInfo.name.trim(),
     };
 
     setCurrentOrder(orderData);
@@ -230,7 +238,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-5">
-      <h2 className="text-3xl font-bold text-center mb-10">Checkout</h2>
+      <h2 className="text-3xl font-bold text-center m-10 ">Checkout</h2>
 
       <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Delivery Information */}
@@ -242,6 +250,15 @@ const CheckoutPage = () => {
               name="name"
               placeholder="Full Name *"
               value={customerInfo.name}
+              onChange={handleChange}
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address *"
+              value={customerInfo.email}
               onChange={handleChange}
               className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               required
@@ -274,33 +291,22 @@ const CheckoutPage = () => {
                 name="paymentMethod"
                 value={customerInfo.paymentMethod}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50 cursor-not-allowed focus:outline-none"
+                disabled
               >
-                <option value="cash">💵 Cash on Delivery</option>
                 <option value="chapa">🏦 Chapa Online Payment</option>
               </select>
 
-              {customerInfo.paymentMethod === "chapa" && (
-                <div className="mt-2 p-3 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-blue-700">
-                    <strong>🧪 Real Chapa Integration (Test Mode)</strong>
-                  </p>
-                  <div className="mt-2 text-xs text-blue-600">
-                    <p>✅ Real Chapa payment flow</p>
-                    <p>✅ Test environment - No real money</p>
-                    <p>✅ Professional integration for your project</p>
-                  </div>
+              <div className="mt-2 p-3 bg-blue-50 rounded-lg">
+                <p className="text-sm text-blue-700">
+                  <strong>🧪 Real Chapa Integration (Test Mode)</strong>
+                </p>
+                <div className="mt-2 text-xs text-blue-600">
+                  <p>✅ Real Chapa payment flow</p>
+                  <p>✅ Test environment - No real money</p>
+                  <p>✅ Professional integration for your project</p>
                 </div>
-              )}
-
-              {customerInfo.paymentMethod === "cash" && (
-                <div className="mt-2 p-3 bg-green-50 rounded-lg">
-                  <p className="text-sm text-green-700">
-                    💡 Pay with cash when your order arrives. No online payment
-                    required.
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -339,13 +345,11 @@ const CheckoutPage = () => {
                   <p>ETB {totalPrice.toFixed(2)}</p>
                 </div>
 
-                {customerInfo.paymentMethod === "chapa" && (
-                  <div className="mt-2 p-2 bg-yellow-50 rounded">
-                    <p className="text-xs text-yellow-700 text-center">
-                      🧪 Test Mode: No additional fees
-                    </p>
-                  </div>
-                )}
+                <div className="mt-2 p-2 bg-yellow-50 rounded">
+                  <p className="text-xs text-yellow-700 text-center">
+                    🧪 Test Mode: No additional fees
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
@@ -364,10 +368,8 @@ const CheckoutPage = () => {
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                 Processing...
               </>
-            ) : customerInfo.paymentMethod === "chapa" ? (
-              "Continue to Chapa Payment"
             ) : (
-              "Place Order"
+              "Continue to Chapa Payment"
             )}
           </button>
 

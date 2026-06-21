@@ -3,35 +3,31 @@ import { Link } from "react-router-dom";
 
 const AboutSection = () => {
   return (
-    <section className="relative bg-gradient-to-br from-slate-50 to-blue-50 py-20 px-5 overflow-hidden">
-      <div className="absolute top-10 left-10 w-20 h-20 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-24 h-24 bg-orange-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
+    <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-white to-yellow-50 py-20 px-5 sm:px-6 lg:px-8">
+      <div className="absolute left-10 top-10 h-24 w-24 rounded-full bg-orange-100/70 blur-2xl"></div>
+      <div className="absolute bottom-10 right-10 h-32 w-32 rounded-full bg-yellow-100/70 blur-2xl"></div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4 tracking-wide">
+      <div className="relative z-10 mx-auto max-w-6xl">
+        <div className="mb-16 text-center">
+          <span className="inline-flex items-center rounded-full bg-orange-100 px-4 py-1 text-sm font-semibold tracking-wide text-orange-700">
             OUR STORY
           </span>
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent">
-            Revolutionizing Food Delivery
+          <h2 className="mt-4 text-4xl font-bold text-gray-900 sm:text-5xl">
+            Bringing Flavor to Your Doorstep
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-orange-400 mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-gray-600 max-w-5xl mx-auto leading-relaxed">
-            We don’t just deliver food — we bring you moments to savor. From
-            your favorite local restaurants to hidden gems across the city, we
-            connect you with the flavors that define your community. Every dish
-            is prepared with passion, delivered with care, and served with a
-            promise to make your dining experience truly special. Whether it’s a
-            quick lunch or a family feast, we make every order more than just a
-            meal — it’s an experience worth remembering.
+          <div className="mx-auto mt-5 h-1.5 w-24 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500"></div>
+          <p className="mx-auto mt-6 max-w-4xl text-base leading-7 text-gray-600 sm:text-lg">
+            We connect food lovers with the best local restaurants, making every
+            meal feel special. From comfort food to chef favorites, our mission
+            is to deliver not just dishes, but unforgettable moments.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
-          <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+        <div className="mb-20 grid gap-8 md:grid-cols-3">
+          <div className="group rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 transition-transform duration-300 group-hover:scale-110">
               <svg
-                className="w-6 h-6 text-white"
+                className="h-6 w-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -44,20 +40,19 @@ const AboutSection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-blue-600 transition-colors">
+            <h3 className="mb-3 text-2xl font-semibold text-gray-900">
               Our Mission
             </h3>
-            <p className="text-gray-600 leading-relaxed">
-              To transform ordinary moments into extraordinary experiences by
-              delivering exceptional meals with unparalleled speed and care,
-              creating smiles one delivery at a time.
+            <p className="leading-7 text-gray-600">
+              Delivering fresh, flavorful meals quickly while making every order
+              a joyful experience.
             </p>
           </div>
 
-          <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+          <div className="group rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 transition-transform duration-300 group-hover:scale-110">
               <svg
-                className="w-6 h-6 text-white"
+                className="h-6 w-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -70,20 +65,19 @@ const AboutSection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-green-600 transition-colors">
+            <h3 className="mb-3 text-2xl font-semibold text-gray-900">
               Our Vision
             </h3>
-            <p className="text-gray-600 leading-relaxed">
-              To build a future where everyone has instant access to diverse
-              culinary experiences, fostering community connections while
-              supporting local restaurants and their dreams.
+            <p className="leading-7 text-gray-600">
+              Creating a future where great food is easy to discover, order, and
+              enjoy anywhere.
             </p>
           </div>
 
-          <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+          <div className="group rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-500 to-amber-600 transition-transform duration-300 group-hover:scale-110">
               <svg
-                className="w-6 h-6 text-white"
+                className="h-6 w-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -96,62 +90,59 @@ const AboutSection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-orange-600 transition-colors">
+            <h3 className="mb-3 text-2xl font-semibold text-gray-900">
               Our Values
             </h3>
-            <p className="text-gray-600 leading-relaxed">
-              Excellence in every detail, passion for food, commitment to
-              sustainability, and building genuine relationships with our
-              customers, partners, and community.
+            <p className="leading-7 text-gray-600">
+              Quality, care, and community-first service in every bite we
+              deliver.
             </p>
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-12 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-black opacity-10"></div>
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 p-10 text-white shadow-xl sm:p-12">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.18),_transparent_18%)]"></div>
           <div className="relative z-10">
-            <h3 className="text-3xl font-bold text-center mb-12">
+            <h3 className="text-center text-3xl font-bold">
               Making an Impact, One Meal at a Time
             </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-              <div className="transform hover:scale-105 transition-transform duration-300">
-                <div className="text-4xl font-bold mb-2 bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
+            <div className="mt-10 grid gap-6 text-center sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/15 text-3xl font-bold">
                   5+
                 </div>
-                <p className="text-blue-100 font-semibold">
-                  Premium Restaurants
-                </p>
-                <p className="text-blue-200 text-sm mt-1">& Growing Weekly</p>
+                <p className="mt-3 font-semibold">Premium Restaurants</p>
+                <p className="mt-1 text-sm text-orange-50">Growing each week</p>
               </div>
-              <div className="transform hover:scale-105 transition-transform duration-300">
-                <div className="text-4xl font-bold mb-2 bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
+              <div>
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/15 text-3xl font-bold">
                   1.5K+
                 </div>
-                <p className="text-blue-100 font-semibold">Curated Dishes</p>
-                <p className="text-blue-200 text-sm mt-1">Fresh Daily</p>
+                <p className="mt-3 font-semibold">Curated Dishes</p>
+                <p className="mt-1 text-sm text-orange-50">Fresh daily</p>
               </div>
-              <div className="transform hover:scale-105 transition-transform duration-300">
-                <div className="text-4xl font-bold mb-2 bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
+              <div>
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/15 text-3xl font-bold">
                   10K+
                 </div>
-                <p className="text-blue-100 font-semibold">Happy Customers</p>
-                <p className="text-blue-200 text-sm mt-1">98% Satisfaction</p>
+                <p className="mt-3 font-semibold">Happy Customers</p>
+                <p className="mt-1 text-sm text-orange-50">98% satisfaction</p>
               </div>
-              <div className="transform hover:scale-105 transition-transform duration-300">
-                <div className="text-4xl font-bold mb-2 bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
-                  15min
+              <div>
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/15 text-3xl font-bold">
+                  15m
                 </div>
-                <p className="text-blue-100 font-semibold">Avg. Delivery</p>
-                <p className="text-blue-200 text-sm mt-1">Lightning Fast</p>
+                <p className="mt-3 font-semibold">Avg. Delivery</p>
+                <p className="mt-1 text-sm text-orange-50">Fast & reliable</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="text-center mt-12">
+        <div className="mt-12 text-center">
           <Link
             to="/story"
-            className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+            className="inline-flex items-center rounded-full bg-orange-500 px-8 py-4 font-semibold text-white shadow-lg transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600"
           >
             Discover Our Story →
           </Link>
