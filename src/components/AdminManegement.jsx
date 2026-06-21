@@ -8,6 +8,12 @@ const AdminPage = () => {
         <h2 className="text-2xl font-bold text-gray-700 mb-8">Admin Panel</h2>
         <nav className="flex flex-col space-y-4">
           <Link
+            to="/admin/users"
+            className="text-gray-700 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-lg"
+          >
+            User Management
+          </Link>
+          <Link
             to="/admin/restaurants"
             className="text-gray-700 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-lg"
           >

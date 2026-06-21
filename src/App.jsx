@@ -28,6 +28,8 @@ import RefundPolicy from "./components/RefundPolicy";
 import Accessibility from "./components/Accessibility";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword.jsx";
+import RestaurantDashboard from "./components/RestaurantDashboard";
+import UserManagment from "./components/UserManagment";
 
 function App() {
   return (
@@ -64,6 +66,8 @@ function App() {
         <Route path="/admin-management" element={<AdminManegement />} />
         <Route path="/admin/categories" element={<CategoryPage />} />
         <Route path="/story" element={<StoryPage />} />
+        <Route path="/dashboard/restaurant" element={<RestaurantDashboard />} />
+        <Route path="/admin/users" element={<UserManagment />} />
         <Route
           path="/restaurant/:restaurantId/catering"
           element={<Catering />}

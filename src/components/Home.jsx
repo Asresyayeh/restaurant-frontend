@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import PizzaImage from "../assets/Pizza.jpg";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const [restaurants, setRestaurants] = useState([]);
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -19,10 +20,6 @@ const Home = () => {
     };
     fetchRestaurants();
   }, []);
-
-  const filteredRestaurants = restaurants.filter((r) =>
-    r.name.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <header className="relative bg-hero-black text-white overflow-hidden min-h-screen">
@@ -42,18 +39,32 @@ const Home = () => {
               family.
             </p>
 
-            {/* Search Bar */}
-            <div className="flex gap-3 items-center max-w-xl">
-              <input
-                aria-label="search"
-                className="w-full rounded-lg border border-yellow-300/30 bg-white/5 placeholder-gray-300 text-white py-3 px-4 pr-12 focus:outline-none"
-                placeholder="Search Keywords (Recipe Name Here)"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button className="bg-yellow-400 text-black px-4 py-2 rounded-md">
-                🔍
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-3 max-w-xl">
+              <button
+                onClick={() => navigate("/restaurant")}
+                className="bg-yellow-400 text-black px-6 py-3 rounded-md font-semibold hover:bg-yellow-300 transition-colors"
+              >
+                Order Now
               </button>
+              <button
+                onClick={() => navigate("/restaurant")}
+                className="border border-yellow-300/30 text-white px-6 py-3 rounded-md font-semibold hover:bg-white/5 transition-colors"
+              >
+                Explore Menu
+              </button>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-3 text-sm text-gray-300">
+              <span className="bg-white/5 px-3 py-1 rounded-full">
+                ⚡ Fast Delivery
+              </span>
+              <span className="bg-white/5 px-3 py-1 rounded-full">
+                🍽️ Fresh Daily
+              </span>
+              <span className="bg-white/5 px-3 py-1 rounded-full">
+                ⭐ 4.9 Rated
+              </span>
             </div>
 
             {/* Popular Restaurants */}
@@ -62,7 +73,7 @@ const Home = () => {
                 Popular Restaurant
               </h3>
               <div className="flex gap-3 items-center flex-wrap">
-                {filteredRestaurants.slice(0, 6).map((r) => (
+                {restaurants.slice(0, 6).map((r) => (
                   <div
                     key={r._id}
                     className="w-16 h-16 rounded-lg overflow-hidden"
@@ -77,15 +88,22 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* Right image */}
-          <div className="lg:flex justify-end">
-            <div className="relative w-[420px] h-[420px] rounded-full overflow-hidden shadow-2xl">
+          <div className="lg:flex justify-end relative">
+            <div className="absolute -top-4 right-6 z-10 bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+              Best Seller
+            </div>
+            <div className="relative w-[320px] h-[320px] md:w-[380px] md:h-[380px] rounded-full overflow-hidden shadow-2xl border border-yellow-400/20">
               <img
                 src={PizzaImage}
                 alt="pizza"
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full scale-110"
               />
+            </div>
+            <div className="absolute bottom-4 left-0 bg-black/60 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl">
+              <p className="text-xs text-yellow-300 uppercase tracking-[0.3em]">
+                Today’s Special
+              </p>
+              <p className="text-lg font-semibold">Spicy Chicken Pizza</p>
             </div>
           </div>
         </div>
@@ -93,15 +111,15 @@ const Home = () => {
 
       <style>
         {`
-  .bg-hero-black {
-    background: radial-gradient(
-      ellipse at top right,
-      #0b0b0b 0%,
-      #111111 40%,
-      #0b0b0b 100%
-    );
-  }
-`}
+          .bg-hero-black {
+            background: radial-gradient(
+              ellipse at top right,
+              #0b0b0b 0%,
+              #111111 40%,
+              #0b0b0b 100%
+            );
+          }
+        `}
       </style>
     </header>
   );

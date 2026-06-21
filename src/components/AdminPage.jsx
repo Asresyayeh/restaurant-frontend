@@ -22,20 +22,19 @@ const AdminPage = () => {
         const res = await fetch(`${API_URL}/restaurants`);
         const restaurantsData = await res.json();
 
-        // Step 2: Fetch menu items for each restaurant
         const restaurantsWithMenu = await Promise.all(
           restaurantsData.map(async (restaurant) => {
             try {
               const menuRes = await fetch(
-                `${API_URL}/menu/restaurant/${restaurant._id}`
+                `${API_URL}/menu/restaurant/${restaurant._id}`,
               );
               const menuData = await menuRes.json();
               return { ...restaurant, menu: menuData };
             } catch (err) {
               console.error(`Error fetching menu for ${restaurant.name}:`, err);
-              return { ...restaurant, menu: [] }; // fallback empty menu
+              return { ...restaurant, menu: [] };
             }
-          })
+          }),
         );
 
         setRestaurants(restaurantsWithMenu);
@@ -113,8 +112,8 @@ const AdminPage = () => {
         prev.map((r) =>
           r._id === restaurantId
             ? { ...r, menu: [...(r.menu || []), data.data] }
-            : r
-        )
+            : r,
+        ),
       );
     } catch (err) {
       console.error("Error adding menu item:", err);
@@ -125,7 +124,7 @@ const AdminPage = () => {
     try {
       const response = await fetch(
         `${API_URL}/menu/restaurants/${restaurantId}/menu/${menuId}`,
-        { method: "DELETE" }
+        { method: "DELETE" },
       );
 
       if (!response.ok) {
@@ -133,13 +132,12 @@ const AdminPage = () => {
         throw new Error(data.message || "Failed to delete menu item");
       }
 
-      // Update state only if deletion succeeded
       setRestaurants((prev) =>
         prev.map((r) =>
           r._id === restaurantId
             ? { ...r, menu: r.menu.filter((item) => item._id !== menuId) }
-            : r
-        )
+            : r,
+        ),
       );
     } catch (err) {
       console.error("Error deleting menu item:", err);
@@ -156,11 +154,10 @@ const AdminPage = () => {
           onClick={handleGoToReport}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md transition-all duration-200"
         >
-          📊 View Order Report
+          View Order Report
         </button>
       </div>
 
-      {/* Add new restaurant */}
       <div className="max-w-md mx-auto mb-6 sm:mb-8 flex flex-col gap-2">
         <input
           type="text"
@@ -198,7 +195,6 @@ const AdminPage = () => {
         </button>
       </div>
 
-      {/* Restaurant List */}
       {restaurants.map((restaurant) => (
         <div
           key={restaurant._id}
@@ -234,8 +230,6 @@ const AdminPage = () => {
               Delete
             </button>
           </div>
-
-          {/* Menu Items */}
           <h3 className="font-semibold mb-2">Menu Items</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left border border-gray-300 rounded-lg mb-4 text-sm sm:text-base">
