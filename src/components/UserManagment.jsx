@@ -9,26 +9,45 @@ const UserManagement = () => {
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Load users and restaurants in parallel
   useEffect(() => {
     const fetchManagementData = async () => {
       try {
+        setLoading(true);
+
+        const token = localStorage.getItem("token");
+
         const [usersRes, restaurantsRes] = await Promise.all([
-          fetch(`${API_URL}/users`), // Ensure you have an admin endpoint to get users
-          fetch(`${API_URL}/restaurants`),
+          fetch(`${API_URL}/auth`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }),
+          fetch(`${API_URL}/restaurants`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }),
         ]);
 
-        if (!usersRes.ok || !restaurantsRes.ok) {
-          throw new Error("Failed to load user management asset matrices.");
+        if (!usersRes.ok) {
+          throw new Error(`Failed to load users. Status: ${usersRes.status}`);
+        }
+
+        if (!restaurantsRes.ok) {
+          throw new Error(
+            `Failed to load restaurants. Status: ${restaurantsRes.status}`,
+          );
         }
 
         const usersData = await usersRes.json();
         const restaurantsData = await restaurantsRes.json();
 
-        setUsers(Array.isArray(usersData) ? usersData : []);
-        setRestaurants(Array.isArray(restaurantsData) ? restaurantsData : []);
+        setUsers(usersData.data || []);
+        setRestaurants(restaurantsData.data || []);
       } catch (err) {
-        console.error(err);
+        console.error("Management Data Error:", err);
         setError(err.message);
       } finally {
         setLoading(false);

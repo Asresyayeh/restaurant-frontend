@@ -215,7 +215,6 @@ const Catering = () => {
       console.error("Submission error:", err);
       setMessage(`Error submitting order: ${err.message}`);
 
-      // ⏱️ Clear server error alert after 5 seconds
       setTimeout(() => {
         setMessage("");
       }, 5000);
