@@ -70,9 +70,9 @@ const Navbar = () => {
         <Link to="/cart" className="text-white hover:underline">
           Cart
         </Link>
-        <Link to="/checkout" className="text-white hover:underline">
+        {/* <Link to="/checkout" className="text-white hover:underline">
           Checkout
-        </Link>
+        </Link> */}
 
         {isLoggedIn ? (
           <div className="relative">

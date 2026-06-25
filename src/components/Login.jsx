@@ -37,15 +37,13 @@ const LoginPage = () => {
 
       const user = jwtDecode(data.token);
 
-      // Check if user is admin (FIXED)
-      const isAdmin = user.role === "admin";
-
       console.log("DECODED USER:", user);
       console.log("ROLE:", user.role);
 
-      // Redirect
-      if (isAdmin) {
+      if (user.role === "admin") {
         navigate("/admin-management");
+      } else if (user.role === "restaurant_admin") {
+        navigate("/restaurant-admin");
       } else {
         const redirectPath =
           sessionStorage.getItem("redirectAfterLogin") || "/";

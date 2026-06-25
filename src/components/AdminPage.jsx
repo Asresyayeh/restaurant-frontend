@@ -275,7 +275,6 @@ const AdminPage = () => {
             </table>
           </div>
 
-          {/* Add Menu Item */}
           <AddMenuItemForm
             restaurantId={restaurant._id}
             handleAddMenuItem={handleAddMenuItem}
